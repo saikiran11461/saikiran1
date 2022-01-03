@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container img {
+            width: 200px;
+
+        }
+
+        #container {
+            display: grid;
+            width: 50%;
+
+
+        }
+
+        button {
+            width: 100px;
+            padding: 10px 20px;
+            margin: 20px 0px;
+        }
+    </style>
+</head>
+
+<body>
+   <a href="addtocart.html"><button>go to cart page</button></a>
+    <div id="container"></div>
+</body>
+
+</html>
+<script>
+    async function details() {
+        try {
+            let responce = await fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=")
+
+            let data = await responce.json()
+            console.log('data:', data.meals)
+            appensmeals(data.meals)
+        }
+        catch (err) {
+            console.log('err:', err)
+        }
+    }
+    details()
+    var cart_arr =[]
+
+    function appensmeals(meals) {
+        meals.forEach(function (element) {
+            let container = document.getElementById("container")
+            name =document.createElement("p")
+            name.innerHTML=element.strArea
+            let img = document.createElement("img")
+            img.src = element.strMealThumb
+            let price = document.createElement("p")
+            let rdprice = price.textContent = Math.ceil(Math.random() * 100)
+            let button = document.createElement("button")
+            button.innerHTML = "add to cart"
+            container.append(img, price, button)
+
+            button.addEventListener("click",function(){
+                cart_arr.push(element)
+                localStorage.setItem("cart_data",JSON.stringify(cart_arr))
+              
+            })
+
+
+
+        })
+
+    }
+
+
+</script>
